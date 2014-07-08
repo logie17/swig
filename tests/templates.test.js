@@ -21,7 +21,10 @@ describe('Templates', function () {
       first: 'Tacos',
       second: 'Burritos',
       includefile: "./includes.html",
-      bar: ["a", "b", "c"]
+      bar: ["a", "b", "c"],
+      unsafe_function: function () {
+        return '<script>';
+      }
     },
     tests,
     expectations,

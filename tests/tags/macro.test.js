@@ -17,6 +17,17 @@ describe('Tag: macro', function () {
   it('does not auto-escape', function () {
     expect(swig.render('{% macro foo %}<h1>{{ "<p>" }}</h1>{% endmacro %}{{ foo() }}'))
       .to.equal('<h1>&lt;p&gt;</h1>');
+    expect(swig.render('{% macro bar() %}<h1>{{ "<p>" }}</h1>{% endmacro %}{{ bar() }}'))
+      .to.equal('<h1>&lt;p&gt;</h1>');
+    var opts = {
+      locals: {
+        bop: function () {
+          return '<script>';
+        }
+      }
+    };
+    expect(swig.render('{% macro baz() %}<h1>{{ bop() }}</h1>{% endmacro %}{{ baz() }}', opts))
+      .to.equal('<h1>&lt;script&gt;</h1>');
   });
 
   it('throws on bad argument names', function () {

@@ -21,3 +21,12 @@ Hahahahahah!
 {% macro global_ctx() %}
 {{ first }}
 {% endmacro %}
+
+{% macro html_macro() %}
+<script>
+{% endmacro %}
+
+{% macro html_macro_unsafe_function() %}
+{{ unsafe_function() }}
+{{ unsafe_function()|safe }}
+{% endmacro %}

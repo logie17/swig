@@ -59,7 +59,9 @@ var cases = {
     { c: '{{ q.r(4, "blah") }}', e: '' },
     { c: '{{ e["f"](4, "blah") }}', e: 'eeeee' },
     { c: '{{ chalupa().bar() }}', e: 'chalupas' },
-    { c: '{{ { foo: "bar" }.foo }}', e: 'bar' }
+    { c: '{{ { foo: "bar" }.foo }}', e: 'bar' },
+    { c: '{{ unsafe_function() }}', e: '&lt;script&gt;' },
+    { c: '{{ unsafe_function()|safe }}', e: '<script>' }
   ],
   'can run multiple filters': [
     { c: '{{ a|default("")|default(1) }}', e: '1' }
@@ -99,7 +101,10 @@ describe('Variables', function () {
     n: null,
     o: Object.create({ foo: function () { return 'bar'; } }),
     o2: { a: 'bar', foo: function (b) { return b || this.a; }, $bar: 'bar' },
-    o3: { n: null }
+    o3: { n: null },
+    unsafe_function: function () {
+      return '<script>';
+    }
   }};
   _.each(cases, function (cases, description) {
     describe(description, function () {
